@@ -103,18 +103,19 @@ class poview(APIView):
         except:
               return Response({'error':True},status=status.HTTP_404_NOT_FOUND)     
     def put(self,request,po_id=None,*args, **kwargs):
-        try:
+        # try:
             instance = get_object_or_404(po,pk=po_id)
         
             serializer=self.serializer_class(instance,request.data,partial=True)
             
             if serializer.is_valid(raise_exception=True):
                 serializer.save()
-                return Response(poview(po.objects.filter(id=po_id),many=True).data ,status=status.HTTP_200_OK)
+                print(po.objects.filter(id=po_id))
+                return  Response(poapi(po.objects.filter(id=po_id),many=True).data  ,status=status.HTTP_200_OK)
             else:
                 return Response({'error':True},status=status.HTTP_404_NOT_FOUND)
-        except:
-            return Response({'error':True},status=status.HTTP_404_NOT_FOUND)
+        # except:
+        #     return Response({'error':True},status=status.HTTP_404_NOT_FOUND)
 
     def delete(self,request,po_id=None,*args, **kwargs):
         serializer=self.serializer_class
@@ -139,8 +140,8 @@ class apoview(APIView):
       
      
     def post(self,request,po_id=None,*args, **kwargs):
-            print(po_id)
-        # try:
+       
+        try:
             instance = get_object_or_404(po,pk=po_id)
         
             serializer=self.serializer_class(instance,request.data)
@@ -151,10 +152,10 @@ class apoview(APIView):
                 serializer.save()
                 return Response(poapi(po.objects.filter(id=po_id),many=True).data  ,status=status.HTTP_200_OK)
            
-        # except Exception as e:
+        except Exception as e:
             
-        #     print(e,serializer.errors)
-        #     return Response({'error':True},status=status.HTTP_404_NOT_FOUND)
+       
+            return Response({'error':True},status=status.HTTP_404_NOT_FOUND)
 class pvpmview(APIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]

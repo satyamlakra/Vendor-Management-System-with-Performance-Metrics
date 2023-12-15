@@ -29,7 +29,7 @@ class Historical(models.Model):
 
     vendor= models.ForeignKey(VendorProfileManagement,on_delete=models.CASCADE)
     date= models.DateTimeField() 
-    on_time_delivery_rate= models.FloatField() 
+    on_time_delivery_rate= models.FloatField(null=True,blank=True) 
     quality_rating_avg= models.FloatField() 
     average_response_time= models.FloatField() 
     fulfillment_rate= models.FloatField()    
